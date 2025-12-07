@@ -1,0 +1,41 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+# .env
+# .env.*.local
+
+# Logs
+logs/
+*.log
+log.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Optional cache
+.cache/
+.eslintcache
+
+# Build output (if you generate any static assets)
+dist/
+build/
+
+# Temp files
+.tmp/
+temp/
+
+# Editor folders
+.vscode/
+.idea/
+
+# Mac system files
+.AppleDouble
+.LSOverride
+
+# Render build artifacts (sometimes generated)
+render.yaml
