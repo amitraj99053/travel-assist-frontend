@@ -43,7 +43,7 @@ const PaymentPage = () => {
             // In a real app, you'd verify the transaction with the payment gateway
             const response = await bookingAPI.processPayment({
                 bookingId: booking._id,
-                paymentMethod: 'upi_qr',
+                paymentMethod: 'UPI',
                 amount: booking.totalCost
             }, token);
 
