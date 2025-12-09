@@ -9,7 +9,7 @@ import {
     disconnectSocket,
     updateLocation
 } from '../services/socket';
-import { FaTools, FaMapMarkerAlt, FaPhone, FaCheckCircle, FaClock } from 'react-icons/fa';
+import { FaTools, FaMapMarkerAlt, FaPhone, FaCheckCircle, FaClock, FaStar } from 'react-icons/fa';
 
 const MechanicDashboardPage = () => {
     const { user, token } = useAuthStore();
@@ -19,6 +19,7 @@ const MechanicDashboardPage = () => {
     const [nearbyRequests, setNearbyRequests] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isAccepting, setIsAccepting] = useState(null);
+    const [isReviewsModalOpen, setIsReviewsModalOpen] = useState(false);
 
     useEffect(() => {
         fetchDashboardData();
@@ -289,7 +290,10 @@ const MechanicDashboardPage = () => {
                                 <FaCheckCircle className="text-green-500 text-2xl" />
                             </div>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md">
+                        <div
+                            className="bg-white p-6 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-transform transform hover:-translate-y-1 hover:bg-blue-50"
+                            onClick={() => setIsReviewsModalOpen(true)}
+                        >
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-gray-500 text-sm">Rating</p>
@@ -337,8 +341,8 @@ const MechanicDashboardPage = () => {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${job.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                                            job.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                                                                'bg-yellow-100 text-yellow-800'
+                                                        job.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                                            'bg-yellow-100 text-yellow-800'
                                                         }`}>
                                                         {job.status}
                                                     </span>
@@ -421,6 +425,81 @@ const MechanicDashboardPage = () => {
                         </div>
                     )}
                 </div>
+                {/* Reviews Modal */}
+                {isReviewsModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm">
+                        <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
+                            <div className="flex justify-between items-center p-6 border-b border-gray-100">
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-900">Customer Reviews</h2>
+                                    <p className="text-sm text-gray-500 mt-1">Recent feedback from your services</p>
+                                </div>
+                                <button
+                                    onClick={() => setIsReviewsModalOpen(false)}
+                                    className="text-gray-400 hover:text-gray-600 transition-colors bg-gray-100 p-2 rounded-full"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div className="overflow-y-auto p-6 space-y-4">
+                                {!dashboardData?.recentReviews || dashboardData.recentReviews.length === 0 ? (
+                                    <div className="text-center py-12 text-gray-500">
+                                        <FaCheckCircle className="mx-auto text-4xl text-gray-300 mb-4" />
+                                        <p className="text-lg">No reviews yet.</p>
+                                        <p className="text-sm">Complete jobs to start getting rated!</p>
+                                    </div>
+                                ) : (
+                                    dashboardData.recentReviews.map((review, index) => (
+                                        <div key={review._id || index} className="border-b border-gray-100 last:border-0 pb-4 mb-4 last:pb-0 last:mb-0">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <div>
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="font-bold text-gray-900">{review.title}</div>
+                                                        {review.verified && (
+                                                            <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+                                                                <FaCheckCircle className="w-3 h-3" /> Verified
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div className="flex text-yellow-400 text-sm mt-1">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <FaStar
+                                                                key={i}
+                                                                className={i < review.rating ? "text-yellow-400" : "text-gray-300"}
+                                                                size={14}
+                                                            />
+                                                        ))}
+                                                        <span className="ml-2 text-gray-500 text-xs flex items-center">
+                                                            {new Date(review.createdAt).toLocaleDateString()}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="text-2xl font-bold text-gray-900 bg-gray-50 px-3 py-1 rounded-lg">
+                                                    {review.rating} <span className="text-sm text-gray-400 font-normal">/5</span>
+                                                </div>
+                                            </div>
+                                            <p className="text-gray-600 bg-gray-50 p-3 rounded-lg text-sm italic border-l-4 border-blue-400">
+                                                "{review.comment}"
+                                            </p>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+
+                            <div className="p-4 border-t border-gray-100 bg-gray-50 text-center">
+                                <button
+                                    onClick={() => setIsReviewsModalOpen(false)}
+                                    className="text-blue-600 text-sm font-medium hover:underline"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
