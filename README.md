@@ -3,7 +3,7 @@
 A real-time roadside assistance platform connecting drivers with nearby mechanics.
 
 ## 🔗 Live Demo
-**[Click here to view the Deployed App](https://your-app-url.vercel.app)**
+**[Click here to view the Deployed App](https://travel-assist-frontend.vercel.app/)**
 *(Replace this link with your actual deployed URL)*
 
 ## ✨ Features
