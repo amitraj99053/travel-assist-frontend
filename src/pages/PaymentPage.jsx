@@ -90,7 +90,8 @@ const PaymentPage = () => {
         : 'Mechanic';
 
     // Mock UPI ID - in a real app, this would come from the mechanic's profile
-    const mechanicUpiId = "mechanic@upi";
+    // const mechanicUpiId = "mechanic@upi";
+    const mechanicUpiId = "amitraj990531@ybl";
     const upiUrl = `upi://pay?pa=${mechanicUpiId}&pn=${encodeURIComponent(mechanicName)}&am=${booking.totalCost}&cu=INR`;
 
     return (
