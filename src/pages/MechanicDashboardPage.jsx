@@ -202,6 +202,15 @@ const MechanicDashboardPage = () => {
                     </div>
                     {dashboardData && (
                         <div className="flex items-center gap-4">
+                            <button
+                                onClick={() => {
+                                    const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+                                    audio.play().catch(e => alert("Audio play failed: " + e.message));
+                                }}
+                                className="px-3 py-2 bg-gray-200 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-300"
+                            >
+                                Test Sound
+                            </button>
                             <span className={`px-4 py-2 rounded-full font-medium ${dashboardData.mechanic.isAvailable
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-red-100 text-red-800'
