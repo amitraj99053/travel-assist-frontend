@@ -35,10 +35,17 @@ const MechanicDashboardPage = () => {
             console.log('New request received:', newRequest);
             setNearbyRequests(prev => [newRequest, ...prev]);
 
-            // Play notification sound
+            // Play notification sound (loop for ~12 seconds)
             try {
                 const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+                audio.loop = true;
                 audio.play().catch(error => console.log('Audio play failed:', error));
+
+                // Stop after 12 seconds
+                setTimeout(() => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }, 12000);
             } catch (error) {
                 console.error('Error initializing audio:', error);
             }
