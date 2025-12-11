@@ -10,6 +10,7 @@ import PaymentPage from './pages/PaymentPage';
 import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
+import HomePage from './pages/HomePage';
 import useAuthStore from './context/authStore';
 
 const PrivateRoute = ({ children }) => {
@@ -60,7 +61,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
   );
