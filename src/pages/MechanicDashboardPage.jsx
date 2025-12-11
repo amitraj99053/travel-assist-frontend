@@ -34,6 +34,14 @@ const MechanicDashboardPage = () => {
         onNewRequest((newRequest) => {
             console.log('New request received:', newRequest);
             setNearbyRequests(prev => [newRequest, ...prev]);
+
+            // Play notification sound
+            try {
+                const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+                audio.play().catch(error => console.log('Audio play failed:', error));
+            } catch (error) {
+                console.error('Error initializing audio:', error);
+            }
         });
 
         // Listen for requests taken by others
